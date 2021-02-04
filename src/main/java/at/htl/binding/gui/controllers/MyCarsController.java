@@ -50,6 +50,7 @@ public class MyCarsController {
             "Skoda",
             "Tesla"
     );
+    boolean bool = false;
 
 
     @FXML
@@ -90,15 +91,15 @@ public class MyCarsController {
         );
 
 
-        //IntegerBinding registrationYear = Bindings.selectInteger(registrationDatePicker.getValue(),"year");
-        //IntegerBinding creationYear = Bindings.selectInteger(creationYearSpinner.getValue(),"");
+        IntegerBinding registrationYear = Bindings.selectInteger(registrationDatePicker.valueProperty(),"year");
+        IntegerBinding creationYear = Bindings.selectInteger(creationYearSpinner.valueProperty());
 
         addButton.setOnAction(actionEvent -> addCar());
         addButton.disableProperty().bind(
                 modelTextField.textProperty().isEmpty()
                 .or(makerComboBox.valueProperty().isNull())
                 .or(registrationDatePicker.valueProperty().isNull())
-                //.or(registrationYear.lessThan(creationYear))
+                .or(registrationYear.lessThan(creationYear))
         );
 
     }
@@ -119,9 +120,18 @@ public class MyCarsController {
         modelTextField.clear();
         registrationDatePicker.getEditor().clear();
         electricCheckBox.setSelected(false);
-        makerComboBox.setValue("Maker");
         creationYearSpinner.setValueFactory(new IntegerSpinnerValueFactory(1980, LocalDate.now().getYear(), 2018));
+        makerComboBox.setValue("Makers");
+        /*makers.add("Makers");
+        makerComboBox.setValue(makers.get(makers.size()-1));
+        bool = true;*/
     }
+
+    /*private void clearMakers(){
+        makers.remove("Makers");
+        makerComboBox.setValue("Makers");
+        bool=false;
+    }*/
 
     private void filterCheckBoxEvents(){
         firstCheckBox.addEventFilter(MouseEvent.ANY, Event::consume);
