@@ -5,10 +5,14 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
+import java.security.Key;
 import java.time.LocalDate;
 import java.util.Comparator;
 
@@ -50,6 +54,7 @@ public class MyCarsController {
         initListView();
         bindCheckBoxes();
         initCarForm();
+        filterCheckBoxEvents();
     }
 
     private void initListView() {
@@ -87,6 +92,7 @@ public class MyCarsController {
                 .or(makerComboBox.valueProperty().isNull())
                 .or(registrationDatePicker.valueProperty().isNull())
         );
+
     }
 
     private void addCar() {
@@ -98,6 +104,21 @@ public class MyCarsController {
                 electricCheckBox.isSelected()
         );
         cars.add(car);
+        clearCarForm();
+    }
+
+    private void clearCarForm(){
+        modelTextField.clear();
+    }
+
+    private void filterCheckBoxEvents(){
+        firstCheckBox.addEventFilter(MouseEvent.ANY, Event::consume);
+
+        lastCheckBox.addEventFilter(MouseEvent.ANY, Event::consume);
+
+        firstHalfCheckBox.addEventFilter(MouseEvent.ANY, Event::consume);
+
+        secondHalfCheckBox.addEventFilter(MouseEvent.ANY, Event::consume);
     }
 
 }
