@@ -1,8 +1,11 @@
 package at.htl.binding.gui.controllers;
 
 import at.htl.binding.model.cars.Car;
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -86,11 +89,16 @@ public class MyCarsController {
                 new IntegerSpinnerValueFactory(1980, LocalDate.now().getYear(), 2018)
         );
 
+
+        //IntegerBinding registrationYear = Bindings.selectInteger(registrationDatePicker.getValue(),"year");
+        //IntegerBinding creationYear = Bindings.selectInteger(creationYearSpinner.getValue(),"");
+
         addButton.setOnAction(actionEvent -> addCar());
         addButton.disableProperty().bind(
                 modelTextField.textProperty().isEmpty()
                 .or(makerComboBox.valueProperty().isNull())
                 .or(registrationDatePicker.valueProperty().isNull())
+                //.or(registrationYear.lessThan(creationYear))
         );
 
     }
@@ -109,6 +117,10 @@ public class MyCarsController {
 
     private void clearCarForm(){
         modelTextField.clear();
+        registrationDatePicker.getEditor().clear();
+        electricCheckBox.setSelected(false);
+        makerComboBox.setValue("Maker");
+        creationYearSpinner.setValueFactory(new IntegerSpinnerValueFactory(1980, LocalDate.now().getYear(), 2018));
     }
 
     private void filterCheckBoxEvents(){
